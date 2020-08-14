@@ -1,7 +1,7 @@
 import __main__
 from browser import document
+from browser import timer
 _window = document.getElementById('game')
-from ursina import scene
 from ursina import input_handler
 # from ursina import application
 class Empty:
@@ -29,6 +29,7 @@ class Window():
         self._size = value
         _window.style.width = f'{value[0]}px'
         _window.style.heigth = f'{value[1]}px'
+        self.aspect_ratio = value[0] / value[1]
 
     @property
     def color(self):
@@ -40,12 +41,15 @@ class Window():
 
 window = Window()
 window.color = 'gray'
+window.size = (1920, 1080)
 
-scene = Empty()
+
+from ursina import Entity
+scene = Entity(model=None, scale_x=1/window.aspect_ratio)
 scene.entities = list()
-scene.b = document.createElement("div")
-scene.b.style.cssText = '''width:56.25%; height:100%; position:absolute; top:50%; left:50%;
-transform:translate(-50%, -50%); color:white; background-color:clear;'''
+# scene.b = document.createElement("div")
+# scene.b.style.cssText = '''width:56.25%; height:100%; position:absolute; top:50%; left:50%;
+# transform:translate(-50%, -50%); color:white; background-color:clear;'''
 _window.appendChild(scene.b)
 
 
@@ -126,4 +130,10 @@ class Ursina:
 
 
     def run(self):
-        pass
+        def _update_wrapper(i):
+            # global id
+            timer.request_animation_frame(_update_wrapper)
+            if hasattr(__main__, 'update'):
+                __main__.update()
+        _update_wrapper(0)
+        # pass

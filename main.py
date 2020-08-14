@@ -1,13 +1,4 @@
-try:
-    from browser import timer
-    from browser import document
-    _window = document.getElementById('game')
-except:
-    pass
-
 from ursina.main import Ursina, application
-from ursina import scene
-
 
 
 class Empty:
@@ -27,57 +18,8 @@ camera = Empty(x=0, y=0)
 camera.ui = Empty(x=0, y=0)
 Quad = Empty
 Circle = Empty
-color = Empty(red='red', azure='azure', white='white', black='black', clear='rgba(0,0,0,0)', green='green')
-from ursina import Sequence, Func, Wait
-from ursina.input_handler import held_keys
 
-class Entity:
-    def __init__(self, **kwargs):
-        self.b = document.createElement("button")
-        self.b.style.cssText = '''width:100%; height:100%; position:absolute; top:50%; left:50%; will-change: transform;
-        transform:translate(-50%, -50%); font-size:50; color:black; background-size: 100% 100%; padding:0;
-        border-radius: 128px; border-style:solid; border-width:0px; border-color: white;'''
-        self.enabled = True
-        self.parent = scene
-        self.x = 0
-        self.y = 0
-        self.scale_x = 0
-        self.scale_y = 0
-
-        self.color = color.white
-        for key, value in kwargs.items():
-            setattr(self, key ,value)
-
-        scene.entities.append(self)
-
-
-    def __setattr__(self, name, value):
-        object.__setattr__(self, name, value)
-        if name == 'x':             self.b.style.left = f'{50+(value*100)}%'
-        elif name == 'y':           self.b.style.top = f'{50+(value*100)}%'
-        elif name == 'scale_x':     self.b.style.width = f'{value*100}%'
-        elif name == 'scale_y':     self.b.style.height = f'{value*100}%'
-        elif name == 'origin':      self.b.style.transform = f'translate({(-value[0]-.5)*100}%, {(value[1]-.5)*100}%)'
-        # elif name == 'origin_y':    self.b.style.transform = f'translate({(-value-.5)*100}%, -50%)'
-        # elif name == 'origin':      self.b.style.transformOrigin = f'{value[0]*100}% {value[0]*100}%'
-        # elif name == 'origin':      self.b.style.transformOrigin = f'left center'
-
-        # elif name == 'enabled': self.b.disabled = not value
-        elif name == 'visible':     self.b.style.visibility  = ('hidden', 'inherit')[int(value)]
-        elif name == 'model':
-            if value == None:       self.b.style.backgroundColor = color.clear
-            elif value == 'quad':   self.b.style.borderRadius = '0%'
-
-        # if name == 'text': self.b.style.innerHTML = value
-        elif name == 'update':
-            if callable(value): timer.set_interval(value, 60)
-            else:               timer.clear_interval(update)
-
-        elif name == 'parent':      value.b.appendChild(self.b)
-        elif name == 'color':       self.b.style.backgroundColor = value
-        elif name == 'texture':     self.b.style.backgroundImage = f"url('{value}.jpg'), url('{value}.png')"
-
-
+from ursina import *
 
 class Text(Entity):
     def __init__(self, **kwargs):
@@ -112,6 +54,7 @@ class Button(Entity):
     def __init__(self, **kwargs):
         super().__init__()
         self.text_entity = Text(parent=self)
+        self.model = 'quad'
         self.color = 'rgba(0,0,0,0.66)'
         for key, value in kwargs.items():
             setattr(self, key ,value)
@@ -138,39 +81,37 @@ class Button(Entity):
 
 
 # Button = Entity
-b = Button()
-b.scale_x = .5
-b.scale_y = .5
+# b = Entity()
+# b.scale_x = .5
+# b.scale_y = .5
 # b.model = None
 # # b.origin_x = -.5
 # b.x = 0
 
 # e = Entity()
 
-c = Button(parent=b, scale_x=.5, scale_y=1, x=0, y=0, color=color.green,
-    origin=(-.5,0),
-    model='quad', text='test\nf e f k fwfwefwefwef\nfewij', background_color=color.red,
-    # texture='shore'
-    )
-
-# c.text_entity.b.style.margin = '50% 0 0 0'
-# c.text_entity.origin = (-.5, 0)
-# c.text_entity.origin = (0, 0)
-c.text_entity.origin = (.5, .5)
-# c.text_entity.b.styletransform:translate(-50%, -50%)
-# c.text_entity.b.style.textAlign = 'left'
-# c.text_entity.x = .5
-# print(c.text_entity.x)
-# b.x += .25
-print(c.x)
-
-# b.
-# print(b)
-# def update():
-#     print('lol', held_keys['d'])
+# c = Button(parent=b, scale_x=.5, scale_y=1, x=0, y=0, color=color.green,
+#     origin=(-.5,0),
+#     model='quad', text='test\nf e f k fwfwefwefwef\nfewij', background_color=color.red,
+#     # texture='shore'
+#     )
 #
-#     b.x += held_keys['d'] * 1
-#     b.x -= held_keys['a'] * 1
+# # c.text_entity.b.style.margin = '50% 0 0 0'
+# # c.text_entity.origin = (-.5, 0)
+# # c.text_entity.origin = (0, 0)
+# c.text_entity.origin = (.5, .5)
+# # c.text_entity.b.styletransform:translate(-50%, -50%)
+# # c.text_entity.b.style.textAlign = 'left'
+# # c.text_entity.x = .5
+# # print(c.text_entity.x)
+# # b.x += .25
+# print(c.x)
+
+# def update():
+#     # print('lol', held_keys['d'])
+#
+#     b.x += held_keys['d'] * .01
+#     b.x -= held_keys['a'] * .01
 
 # def entity_update():
 #     print('a')
@@ -190,12 +131,7 @@ print(c.x)
 # def input(key):
 #     print('.-........', key)
 
-# def _update_wrapper(i):
-#     # global id
-#     timer.request_animation_frame(_update_wrapper)
-#     if update:
-#         update()
-# _update_wrapper(0)
+
 
 
 
@@ -205,3 +141,140 @@ def invoke(func, *args, **kwargs):
         return
 
     timer.set_timeout(func, *args, **kwargs, delay=delay*1000)
+
+
+
+class Camera(Entity):
+    def __init__(self):
+        super().__init__()
+        self.orthographic = True
+        self.fov = 1
+
+
+    @property
+    def fov(self):
+        try:
+            return self._fov
+        except:
+            print('error')
+            return 1
+
+    @fov.setter
+    def fov(self, value):
+        self._fov = value
+        scene.scale = (1/value/window.aspect_ratio, 1/value)
+
+    @property
+    def position(self):
+        return self._position
+
+    @position.setter
+    def position(self, value):
+        self._position = value
+        scene.position = (-value[0] / self.fov / window.aspect_ratio, -value[1] / self.fov)
+
+
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, value):
+        self._x = value
+        scene.x = -value / self.fov / window.aspect_ratio
+
+
+    @property
+    def y(self):
+        return self._y
+
+    @x.setter
+    def x(self, value):
+        self._y = value
+        scene.y = -value / self.fov
+
+camera = Camera()
+
+from ursina import *
+
+
+app = Ursina()
+
+Entity()
+
+def input(key):
+    if key == '-':
+        scene.scale_x *= .9
+        scene.scale_y *= .9
+    if key == '+':
+        scene.scale_x /= .9
+        scene.scale_y /= .9
+
+    if key == 'd':
+        camera.x += .1
+
+camera.fov = 4
+camera.position = (1, 1)
+# Text.default_resolution *= 2
+
+# for y in range(3):
+#     for x in range(3):
+#         b = Button(parent=scene, position=(x,y))
+
+# create a matrix of buttons
+# Button(model='quad')
+board = [[Button(parent=scene, model='quad', position=(x,y)) for x in range(3)] for y in range(3)]
+#
+player_name = 'o'
+player_color = color.azure
+# cursor = Tooltip(player_name, color=player_color, origin=(0,0), scale=4, enabled=True)
+# cursor.background.color = color.clear
+bg = Entity(parent=scene, model='quad', texture='shore', scale=(16,8), z=10, color=color.white)
+# mouse.visible = False
+
+
+def input(key):
+    global player_name, player_color, cursor
+
+#     if key == 'left mouse down' and mouse.hovered_entity:
+#         b = mouse.hovered_entity
+#         b.text = player_name
+#         b.color = player_color
+#         b.collision = False
+#         check_for_victory()
+#
+#         if player_name == 'o':
+#             player_name = 'x'
+#             player_color = color.orange
+#         else:
+#             player_name = 'o'
+#             player_color = color.azure
+#
+#         cursor.text = player_name
+#
+#
+# def check_for_victory():
+#     global board, cursor, player_name, player_color
+#     name = player_name
+#
+#     won = (
+#     (board[0][0].text == name and board[1][0].text == name and board[2][0].text == name) or # across the bottom
+#     (board[0][1].text == name and board[1][1].text == name and board[2][1].text == name) or # across the middle
+#     (board[0][2].text == name and board[1][2].text == name and board[2][2].text == name) or # across the top
+#     (board[0][0].text == name and board[0][1].text == name and board[0][2].text == name) or # down the left side
+#     (board[1][0].text == name and board[1][1].text == name and board[1][2].text == name) or # down the middle
+#     (board[2][0].text == name and board[2][1].text == name and board[2][2].text == name) or # down the right side
+#     (board[0][0].text == name and board[1][1].text == name and board[2][2].text == name) or # diagonal /
+#     (board[0][2].text == name and board[1][1].text == name and board[2][0].text == name))   # diagonal \
+#
+#     if won:
+#         print('winner is:', name)
+#         destroy(cursor)
+#         mouse.visible = True
+#         Panel(z=1, scale=10, model='quad')
+#         t = Text('player\n'+name+'\nwon!', scale=3, origin=(0,0), background=True)
+#         t.create_background(padding=(.5,.25), radius=Text.size/2)
+#         t.background.color = player_color.tint(-.2)
+
+
+app.run()

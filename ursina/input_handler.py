@@ -54,6 +54,9 @@ class InputEvents(Enum):
 
 # held_keys = defaultdict(lambda: 0)
 held_keys = dict()
+for char in [chr(i) for i in range(127)]:
+    held_keys[char] = 0
+
 rebinds = dict()
 
 

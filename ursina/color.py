@@ -1,0 +1,6 @@
+red='red'
+azure='azure'
+white='white'
+black='black'
+clear='rgba(0,0,0,0)'
+green='green'
