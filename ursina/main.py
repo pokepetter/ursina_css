@@ -29,7 +29,6 @@ class Window():
         self._size = value
         _window.style.width = f'{value[0]}px'
         _window.style.heigth = f'{value[1]}px'
-        self.aspect_ratio = value[0] / value[1]
 
     @property
     def color(self):
@@ -38,10 +37,14 @@ class Window():
     def color(self, value):
         _window.style.backgroundColor = value
 
+    @property
+    def aspect_ratio(self):
+        return _window.width / _window.height
+
 
 window = Window()
 window.color = 'gray'
-window.size = (1920, 1080)
+# window.size = (1920, 1080)
 window.position=(0,0)
 
 
