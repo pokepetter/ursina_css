@@ -7,6 +7,8 @@ from ursina import color
 class Entity:
     def __init__(self, **kwargs):
         self.b = document.createElement("button")
+        self.b.entity = self
+        # print('-------------', self.b.entity)
         self.b.style.cssText = '''width:100%; height:100%; position:absolute; top:50%; left:50%; will-change: transform;
         transform:translate(-50%, -50%); font-size:50; color:black; background-size: 100% 100%; padding:0;
         border-radius: 128px; border-style:solid; border-width:0px; border-color: white;'''
@@ -21,8 +23,16 @@ class Entity:
         self.y = 0
         self.scale_x = 1
         self.scale_y = 1
-        self.color = color.white
+
+        # self.origin = (0,0)
+        # self.origin_x = 0
+        # self.origin_y = 0
+
         self.model = None
+        self.color = color.white
+        self.hovered = False
+        self.collision = False
+        self.name = 'entity'
 
         for key, value in kwargs.items():
             setattr(self, key ,value)
@@ -43,11 +53,14 @@ class Entity:
 
         elif name == 'scale_x':     self.b.style.width = f'{value*100}%'
         elif name == 'scale_y':     self.b.style.height = f'{value*100}%'
-        elif name == 'scale':       self.scale_x = value[0]; self.scale_y = value[1]
+        elif name == 'scale':
+            if isinstance(value, (int, float, complex)):
+                value = (value, value)
+
+            self.scale_x = value[0]; self.scale_y = value[1]
 
         elif name == 'origin':      self.b.style.transform = f'translate({(-value[0]-.5)*100}%, {(value[1]-.5)*100}%)'
-        elif name == 'origin_x':    self.origin = (value, self.origin[1])
-        elif name == 'origin_y':    self.origin = (self.origin[0], value)
+
 
         # elif name == 'ignore':
         #     if self.update
@@ -64,5 +77,27 @@ class Entity:
             else:               timer.clear_interval(update)
 
         elif name == 'parent':      value.b.appendChild(self.b)
-        elif name == 'color':       self.b.style.backgroundColor = value
+        elif name == 'color' and self.model: self.b.style.backgroundColor = value
         elif name == 'texture':     self.b.style.backgroundImage = f"url('{value}.jpg'), url('{value}.png')"
+
+        elif name == 'collision':   self.b.style.pointerEvents = ['none', 'all'][bool(value)]
+        elif name == 'name':        self.b.id = value
+
+
+        @property
+        def origin_x(self, value):
+            return self.origin[0]
+        @origin_x.setter
+        def origin_x(self, value):
+            self.origin = (value, self.origin[1])
+
+        @property
+        def origin_y(self, value):
+            return self.origin[1]
+        @origin_y.setter
+        def origin_y(self, value):
+            self.origin = (self.origin[0], value)
+
+
+    def __del__(self):
+        self.b.remove()

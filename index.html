@@ -14,10 +14,37 @@
 
 
 <body style="margin: 0;">
-    <div id="game" style="margin:auto; width:1920px; height:1080px; background-color:red; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); overflow: hidden;"></div>
-    <script src="main.py" type="text/python">
-    </script>
-    <!-- <div id="loading_text"><center><br><br><br><br><br>Loading...</center></div> -->
+    <div id="game" style="
+        margin:auto;
+        width:1920px;
+        height:1080px;
+        background-color: darkgreen;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        overflow: hidden;
+        pointer-events: none;
+        ">
+    </div>
+
+    <script src="main.py" type="text/python"></script>
+
+    <div id="loading_text" style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size:50px;
+        width: 100%;
+        color: white;
+        font-family:monospace;
+        transform: translate(-50%, -5%);
+        text-align: center;
+        ">
+
+    loading...<br><br><br><br><br><br><br>
+    powered by ursina engine ʕ •ᴥ•ʔゝ□
+    </div>
 </body>
 </html>
 
