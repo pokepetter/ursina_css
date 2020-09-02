@@ -56,8 +56,16 @@ class Entity:
         elif name == 'scale':
             if isinstance(value, (int, float, complex)):
                 value = (value, value)
+            self.scale_x = value[0];
+            self.scale_y = value[1]
 
-            self.scale_x = value[0]; self.scale_y = value[1]
+        elif name == 'world_scale_x': self.b.style.width = f'{value*window.width}px'
+        elif name == 'world_scale_y': self.b.style.height = f'{value*window.height}px'
+        elif name == 'world_scale':
+            if isinstance(value, (int, float, complex)):
+                value = (value, value)
+            self.scale_x = value[0];
+            self.scale_y = value[1]
 
         elif name == 'origin':      self.b.style.transform = f'translate({(-value[0]-.5)*100}%, {(value[1]-.5)*100}%)'
 

@@ -1,82 +1,7 @@
 from ursina import *
 
 
-
 app = Ursina()
-
-
-# Button = Entity
-# b = Entity()
-# b.scale_x = .5
-# b.scale_y = .5
-# b.model = None
-# # b.origin_x = -.5
-# b.x = 0
-
-# e = Entity()
-
-# c = Button(parent=b, scale_x=.5, scale_y=1, x=0, y=0, color=color.green,
-#     origin=(-.5,0),
-#     model='quad', text='test\nf e f k fwfwefwefwef\nfewij', background_color=color.red,
-#     # texture='shore'
-#     )
-#
-# # c.text_entity.b.style.margin = '50% 0 0 0'
-# # c.text_entity.origin = (-.5, 0)
-# # c.text_entity.origin = (0, 0)
-# c.text_entity.origin = (.5, .5)
-# # c.text_entity.b.styletransform:translate(-50%, -50%)
-# # c.text_entity.b.style.textAlign = 'left'
-# # c.text_entity.x = .5
-# # print(c.text_entity.x)
-# # b.x += .25
-# print(c.x)
-
-# def update():
-#     # print('lol', held_keys['d'])
-#
-#     b.x += held_keys['d'] * .01
-#     b.x -= held_keys['a'] * .01
-
-# def entity_update():
-#     print('a')
-#     c.x += .5
-# c.update = entity_update
-#
-# def entity_input(key):
-#     if key == 'a':
-#         c.x -= 1
-# #
-# c.input = entity_input
-# def test():
-#     print('ddddddddddddddddddddd')
-#
-# c.on_click = Func(print, 'yolo')
-
-# def input(key):
-#     print('.-........', key)
-
-
-
-
-
-# from ursina import *
-
-
-# app = Ursina()
-
-# Entity()
-
-# def input(key):
-#     if key == '-':
-#         scene.scale_x *= .9
-#         scene.scale_y *= .9
-#     if key == '+':
-#         scene.scale_x /= .9
-#         scene.scale_y /= .9
-#
-#     if key == 'd':
-#         camera.x += .1
 
 camera.fov = 4
 camera.position = (1, 1)
@@ -140,5 +65,9 @@ def check_for_victory():
 
 
 Text('test text')
+# def update():
+    # print('lol', held_keys['d'])
+    # from ursina.main import mouse
+    # print('--', mouse.velocity)
 
 app.run()
