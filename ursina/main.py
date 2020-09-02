@@ -23,7 +23,8 @@ application.development_mode = True
 class Window():
     def __init__(self, **kwargs):
         self.b = _window
-        self.size = (1536, 864)
+
+        self.size = (self.b.width, self.b.height)
         self.color = color.gray
         self.position = (0,0)
 
@@ -47,12 +48,7 @@ window = Window()
 
 
 from ursina import Entity
-scene = Entity(model=None, scale_x=1/window.aspect_ratio, name='scene')
-
-scene.entities = list()
-# scene.b = document.createElement("div")
-# scene.b.style.cssText = '''width:56.25%; height:100%; position:absolute; top:50%; left:50%;
-# transform:translate(-50%, -50%); color:white; background-color:clear;'''
+scene = Entity(model=None, scale_x=1/window.aspect_ratio, name='scene', entities=[])
 _window.appendChild(scene.b)
 
 # mouse = Empty()
