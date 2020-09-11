@@ -9,7 +9,7 @@ class Camera(Entity):
         super().__init__()
         self.orthographic = True
         self.fov = 1
-        self.ui = Entity(name='ui', z=-100)
+        self.ui = Entity(name='ui', z=-100, scale_x=1/self.aspect_ratio)
         _window.appendChild(self.ui.b)
         self.name = 'camera'
 
@@ -56,4 +56,7 @@ class Camera(Entity):
         self._y = value
         scene.y = -value / self.fov
 
+    @property
+    def aspect_ratio(self):
+        return window.aspect_ratio
 # camera = Camera()

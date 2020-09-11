@@ -12,21 +12,17 @@ class Text(Entity):
 
     def __init__(self, text='', **kwargs):
         super().__init__()
+        self.name = 'text_entity'
         self.parent = camera.ui
         self.background_color = color.clear
-        self.scale_x = 1
-        self.scale_y = 1
-        self.color = color.black
+        self.color = color.smoke
         self.b.style.whiteSpace = 'pre'
         self.b.style.overflow = 'visible'
         self.b.style.verticalAlign = 'text-top'
         self.b.style.pointerEvents = 'none'
-        self.name = 'text_entity'
-        # self.origin = (-.5, .5)
         self.origin = (0,0)
         self._background = None
-        # self.model='quad'
-        # self.z = 100
+        self.text = text
 
         self.width = 0
         self.height = 0
@@ -36,10 +32,10 @@ class Text(Entity):
 
 
     def __setattr__(self, name, value):
-        if name == 'text':                  self.parent.b.innerHTML = value
+        if name == 'text':                  self.b.innerHTML = value
         elif name == 'color':               self.b.style.color = value
         elif name == 'background_color':    self.b.style.backgroundColor = value
-        elif name == 'scale':               self.b.style.fontSize = value
+        elif name == 'scale':               self.b.style.fontSize = f'{50*value}px'
         elif name == 'origin':
             self.b.style.textAlign = ('left', 'center', 'right')[int((value[0]*2)+1)]
             self.b.style.direction = ('ltr', 'rtl', 'rtl')[int((value[0]*2)+1)]
@@ -54,7 +50,7 @@ class Text(Entity):
         if self._background:
             destroy(self._background)
 
-        self._background = Entity(parent=self, z=.01)
+        self._background = Entity(parent=self, z=1)
 
         if isinstance(padding, (int, float, complex)):
             padding = (padding, padding)
@@ -84,5 +80,9 @@ class Tooltip(Text):
     def __init__(self, text='', **kwargs):
         super().__init__(text, **kwargs)
         self.name = 'tooltip'
-        # self.background = Entity(parent=self, model='quad')
-        self.create_background()
+        self.background = Entity(parent=self, model='quad')
+        # self.create_background()
+
+    def update(self):
+        # print('lol', mouse.position)
+        self.position = mouse.position

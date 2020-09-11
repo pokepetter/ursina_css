@@ -2,16 +2,21 @@ from ursina import *
 
 
 class Button(Entity):
-    def __init__(self, **kwargs):
+    def __init__(self, text='', **kwargs):
         super().__init__()
-        self.collision = True
-        self.text_entity = Text(parent=self, origin=(0,0))
-        self.text = ''
+        self.name = 'button'
         self.model = 'quad'
         self.color = color.black66
         self.highlight_color = color.hsv(0,0,.2,.8)
         self.collision = True
-        self.name = 'button'
+
+        # self.text_entity = None
+        # if text:
+        #     self.text = text
+        self.text_entity = Text(parent=self, origin=(0,0), add_to_scene_entities=False)
+        self.text = text
+
+        # self.icon = None
 
         for key, value in kwargs.items():
             setattr(self, key ,value)
@@ -19,10 +24,10 @@ class Button(Entity):
 
     def __setattr__(self, name, value):
         super().__setattr__(name, value)
-        if name == 'text' and value:  self.text_entity.b.innerHTML = value
+        if name == 'text':              self.text_entity.b.innerHTML = value
+        if name == 'text_color':        self.text_entity.b.style.fontColor = value
+        if name == 'color':             self._original_color = value
 
-        if name == 'color':
-            self._original_color = value
 
     @property
     def on_click(self):

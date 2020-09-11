@@ -5,7 +5,7 @@ from ursina import color
 
 
 class Entity:
-    def __init__(self, **kwargs):
+    def __init__(self, add_to_scene_entities=True, **kwargs):
         self.b = document.createElement("button")
         self.b.entity = self
         # print('-------------', self.b.entity)
@@ -13,12 +13,15 @@ class Entity:
         transform:translate(-50%, -50%); font-size:50; color:black; background-size: 100% 100%; padding:0;
         border-radius: 128px; border-style:solid; border-width:0px; border-color: white;'''
         self.enabled = True
-        try:
-            from ursina.main import scene
-            self.parent = scene
-            scene.entities.append(self)
-        except:
-            print('no scene entity yet')
+        self.ignore = False
+        self.add_to_scene_entities = add_to_scene_entities # set to False to be ignored by the engine, but still get rendered.
+        if add_to_scene_entities:
+            try:
+                from ursina.main import scene
+                self.parent = scene
+                scene.entities.append(self)
+            except:
+                print('no scene entity yet')
         self.x = 0
         self.y = 0
         self.scale_x = 1

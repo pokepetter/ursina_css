@@ -293,10 +293,34 @@ class Ursina:
         def _update_wrapper(i):
             timer.request_animation_frame(_update_wrapper)
 
+            # time between frames
+            dt = 1/60 * application.time_scale
+            time.dt = dt
+
             mouse.update()
 
-            if hasattr(__main__, 'update'):
+            if hasattr(__main__, 'update') and not application.paused:
                 __main__.update()
+
+            for seq in application.sequences:
+                seq.update()
+
+            for entity in scene.entities:
+                if entity.enabled == False or entity.ignore:
+                    continue
+
+                if application.paused and entity.ignore_paused == False:
+                    continue
+
+                if hasattr(entity, 'update'):
+                    entity.update()
+
+
+                if hasattr(entity, 'scripts'):
+                    for script in entity.scripts:
+                        if script.enabled and hasattr(script, 'update'):
+                            script.update()
+
         _update_wrapper(0)
 
         loading_text = document.getElementById('loading_text');
