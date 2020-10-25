@@ -1,6 +1,7 @@
 import __main__
 from browser import document
 from browser import timer
+import browser
 _window = document.getElementById('game')
 from ursina import input_handler
 from ursina import color
@@ -26,7 +27,7 @@ class Window():
 
         self.size = (self.b.width, self.b.height)
         self.color = color.gray
-        self.position = (0,0)
+
 
     def __setattr__(self, name, value):
         object.__setattr__(self, name, value)
@@ -41,6 +42,12 @@ class Window():
     @property
     def aspect_ratio(self):
         return self.width / self.height
+
+    @property
+    def position(self):
+        r = self.b.getBoundingClientRect()
+        return (r.left, r.top)
+
 
 
 
@@ -132,7 +139,7 @@ class Mouse():
         event = self._mouse_event
 
         self.x = min(max((event.x-window.position[0]-(window.size[0]/2))/window.size[0]*window.aspect_ratio, -window.aspect_ratio/2,), window.aspect_ratio/2)
-        self.y = min(max(((-event.y-window.position[1])/window.size[1]) +.5, -.5), .5)
+        self.y = min(max(((-event.y+window.position[1])/window.size[1]) +.5, -.5), .5)
 
         self.position = (self.x, self.y)
         self.moving = self.x + self.y != self.prev_x + self.prev_y
