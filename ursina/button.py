@@ -4,6 +4,7 @@ from ursina import *
 class Button(Entity):
     def __init__(self, text='', **kwargs):
         super().__init__()
+        self.parent = camera.ui
         self.name = 'button'
         self.model = 'quad'
         self.color = color.black66

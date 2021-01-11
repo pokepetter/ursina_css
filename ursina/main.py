@@ -49,6 +49,25 @@ class Window():
         return (r.left, r.top)
 
 
+    @property
+    def top(self): return (0, .5)
+    @property
+    def bottom(self): return (0, -.5)
+    @property
+    def right(self): return (.5, 0)
+    @property
+    def left(self): return (-.5, 0)
+
+
+    @property
+    def bottom_left(self): return (-.5 * self.aspect_ratio, -.5)
+    @property
+    def top_left(self): return (-.5 * self.aspect_ratio, .5)
+    @property
+    def bottom_right(self): return (.5 * self.aspect_ratio, -.5)
+    @property
+    def top_right(self): return (.5 * self.aspect_ratio, .5)
+
 
 
 window = Window()

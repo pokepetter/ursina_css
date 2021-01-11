@@ -36,6 +36,21 @@
         font-size:3em;
     }
 }
+fullscreen_button {
+    padding: 4px 4px;
+    width: 64px;
+    height: 64px;
+    background-color: #555;
+    border-radius: .2em;
+    border-width: 0px;
+    text-decoration: none;
+    color: white;
+    font-size: 50.0px;
+    z-index: 1;
+    position: absolute;
+    text-align: center;
+    right: 0%;
+}
 
 </style>
 
@@ -58,6 +73,22 @@
     </div>
 
     <script src="main.py" type="text/python"></script>
+
+    <fullscreen_button id="fullscreen_button" onclick="enter_fullscreen()">&#x26F6;</fullscreen_button>
+
+    <script>
+    function enter_fullscreen() {
+        var targetelement = document.documentElement;
+
+        if (targetelement.requestFullscreen) {targetelement.requestFullscreen();}
+        if (targetelement.webkitRequestFullscreen) {targetelement.webkitRequestFullscreen();}
+        if (targetelement.mozRequestFullScreen) {targetelement.mozRequestFullScreen();}
+        if (targetelement.msRequestFullscreen) {targetelement.msRequestFullscreen();}
+
+        document.getElementById("fullscreen_button").style.display = "none";
+     }
+    </script>
+
 </body>
 </html>
 
